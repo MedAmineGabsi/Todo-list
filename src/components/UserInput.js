@@ -29,6 +29,11 @@ const UserInput = () => {
     console.log(tasks);
   };
 
+  const removeTask = (id) => {
+    let newtasks = tasks.filter((e) => e.id !== id);
+    setTasks(newtasks);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (value === "" || value.length >= 40) {
@@ -37,11 +42,6 @@ const UserInput = () => {
     }
     sendValue();
     setValue("");
-  };
-
-  const removeTask = (id) => {
-    let newtasks = tasks.filter((e) => e.id !== id);
-    setTasks(newtasks);
   };
 
   return (
@@ -63,7 +63,7 @@ const UserInput = () => {
           }
           sx={{ mb: 2 }}
         >
-          You cannot put task of more than 40 characters.
+          You cannot put task that contain more than 40 characters.
         </Alert>
       </Collapse>
       <form onSubmit={handleSubmit}>
@@ -77,6 +77,14 @@ const UserInput = () => {
         <Button variant="contained" type="submit" style={{ margin: "8px" }}>
           Submit
         </Button>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setTasks([]);
+          }}
+          style={{ margin: "8px" }}
+          color="error"
+        >Delete All</Button>
         <hr style={{ color: "white" }} />
       </form>
       <ul style={{ listStyle: "decimal" }}>
@@ -84,7 +92,7 @@ const UserInput = () => {
           return (
             <li key={e.id}>
               <div className="todo-wrapper">
-                <span className={e.class}>{e.task}</span>
+                <span className={e.class}>{e.crypted ? e.hash : e.task}</span>
                 <div>
                   <Button
                     variant="contained"

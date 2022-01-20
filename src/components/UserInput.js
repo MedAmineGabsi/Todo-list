@@ -1,10 +1,11 @@
 import { TextField, Button, Alert, IconButton, Collapse } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useState } from "react";
+import swal from "sweetalert";
 
-const formatTime = (time) =>{
-  return time < 10 ? `0${time}`: time
-}
+const formatTime = (time) => {
+  return time < 10 ? `0${time}` : time;
+};
 
 const UserInput = () => {
   const [value, setValue] = useState("");
@@ -12,7 +13,7 @@ const UserInput = () => {
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
 
-  var now = new Date()
+  var now = new Date();
 
   const changeValue = (e) => {
     setValue(e.target.value);
@@ -30,7 +31,9 @@ const UserInput = () => {
         })
         .join(""),
       crypted: false,
-      time: `${now.getHours()}:${formatTime(now.getMinutes())}:${formatTime(now.getSeconds())}`
+      time: `${now.getHours()}:${formatTime(now.getMinutes())}:${formatTime(
+        now.getSeconds()
+      )}`,
     });
     setNextId(nextId + 1);
     console.log(tasks);
@@ -91,7 +94,9 @@ const UserInput = () => {
           }}
           style={{ margin: "8px" }}
           color="error"
-        >Delete All</Button>
+        >
+          Delete All
+        </Button>
         <hr style={{ color: "white" }} />
       </form>
       <ul style={{ listStyle: "decimal" }}>
@@ -101,7 +106,14 @@ const UserInput = () => {
               <div className="todo-wrapper">
                 <span className={e.class}>{e.crypted ? e.hash : e.task}</span>
                 <div>
-                  <Button variant="contained" style={{marginBottom: "20px"}} color="warning">
+                  <Button
+                    variant="contained"
+                    style={{ marginBottom: "20px" }}
+                    color="warning"
+                    onClick={() => {
+                      swal(``, `${e.task} is created at ${e.time}`, 'info');
+                    }}
+                  >
                     {e.time}
                   </Button>
                   <Button
@@ -109,7 +121,7 @@ const UserInput = () => {
                     onClick={() => {
                       removeTask(e.id);
                     }}
-                    style={{marginBottom: "20px", marginLeft: "9px" }}
+                    style={{ marginBottom: "20px", marginLeft: "9px" }}
                     color="error"
                   >
                     Delete

@@ -48,8 +48,10 @@ const UserInput = () => {
     e.preventDefault();
     if (value === "" || value.length >= 40) {
       setOpen(true);
+      
       return;
     }
+    if(now.getHours() < 4 || now.getHours() >= 23){swal('Do you see the time ?', 'I think it\'s time to sleep', 'warning')}
     sendValue();
     setValue("");
   };

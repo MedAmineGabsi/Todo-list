@@ -2,11 +2,17 @@ import { TextField, Button, Alert, IconButton, Collapse } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React, { useState } from "react";
 
+const formatTime = (time) =>{
+  return time < 10 ? `0${time}`: time
+}
+
 const UserInput = () => {
   const [value, setValue] = useState("");
   const [nextId, setNextId] = useState(0);
   const [tasks, setTasks] = useState([]);
   const [open, setOpen] = useState(false);
+
+  var now = new Date()
 
   const changeValue = (e) => {
     setValue(e.target.value);
@@ -24,6 +30,7 @@ const UserInput = () => {
         })
         .join(""),
       crypted: false,
+      time: `${now.getHours()}:${formatTime(now.getMinutes())}:${formatTime(now.getSeconds())}`
     });
     setNextId(nextId + 1);
     console.log(tasks);
@@ -94,19 +101,15 @@ const UserInput = () => {
               <div className="todo-wrapper">
                 <span className={e.class}>{e.crypted ? e.hash : e.task}</span>
                 <div>
-                  <Button
-                    variant="contained"
-                    color="success"
-                    style={{ marginBottom: "20px" }}
-                  >
-                    Crypt
+                  <Button variant="contained" style={{marginBottom: "20px"}} color="warning">
+                    {e.time}
                   </Button>
                   <Button
                     variant="contained"
                     onClick={() => {
                       removeTask(e.id);
                     }}
-                    style={{ marginBottom: "20px" }}
+                    style={{marginBottom: "20px", marginLeft: "9px" }}
                     color="error"
                   >
                     Delete
